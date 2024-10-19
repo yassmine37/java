@@ -42,7 +42,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal [family=" + family + ", name=" + name + ", age=" + age+ ", isMammal=" + isMammal + "]";
+        return "Animal family=" + family + ", name=" + name + ", age=" + age+ ", isMammal=" + isMammal ;
     }
 
 }
