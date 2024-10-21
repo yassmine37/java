@@ -9,6 +9,9 @@ public class Animal {
     public Animal(String family,String name, int age, Boolean isMammal) {
         this.family = family;
         this.name = name;
+        if (age < 0){
+            throw new InvalidAgeException("Age must be a positive integer");
+        }
         this.age = age;
         this.isMammal = isMammal;
     }

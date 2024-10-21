@@ -3,11 +3,11 @@ package tn.esprit.gestionzoo.entities;
 public class Zoo {
     private Animal[] animals;
     private Aquatic[] aquatics;
-    private int nbrAquatics =0;
+    private int nbrAquatics = 0;
     private final int maxAquatics = 10;
     private String name;
     private String city;
-    private final int nbrCages=25;
+    private final int nbrCages = 25;
     private int nbrAnimals = 0;
 
     public Zoo(String name, String city, int nbrCages) {
@@ -16,29 +16,31 @@ public class Zoo {
         this.animals = new Animal[nbrCages];
         this.aquatics = new Aquatic[maxAquatics];
     }
+
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Le nom du zoo ne doit pas être vide.");
         }
         this.name = name;
     }
-    public void addAqutics (Aquatic aqutics) {
+
+    public void addAqutics(Aquatic aqutics) {
         if (nbrAquatics < maxAquatics) {
             aquatics[nbrAquatics] = aqutics;
             nbrAquatics++;
             System.out.println("Aquatic " + aqutics.getName() + " added to zoo.");
-        }else {
+        } else {
             System.out.println("Aquatic " + aqutics.getName() + " can't be added to zoo.");
         }
     }
 
-    public void displayNumberOfAquaticsByType(){
-        int nbrDolphin=0;
-        int nbrPenguin=0;
+    public void displayNumberOfAquaticsByType() {
+        int nbrDolphin = 0;
+        int nbrPenguin = 0;
         for (int i = 0; i < nbrAquatics; i++) {
             if (aquatics[i] instanceof Dolphin) {
                 nbrDolphin++;
-            }else if (aquatics[i] instanceof Penguin) {
+            } else if (aquatics[i] instanceof Penguin) {
                 nbrPenguin++;
             }
         }
@@ -46,12 +48,12 @@ public class Zoo {
         System.out.println("Number of Penguins : " + nbrPenguin);
     }
 
-    public float maxPenguinSwimmingDepth(){
+    public float maxPenguinSwimmingDepth() {
         float maxDepth = 0.0f;
-        for (int i=0 ; i<nbrAquatics ; i++) {
+        for (int i = 0; i < nbrAquatics; i++) {
             if (aquatics[i] instanceof Penguin) {
                 Penguin penguin = (Penguin) aquatics[i];
-                if(penguin.getSwimmingDepth() > maxDepth){
+                if (penguin.getSwimmingDepth() > maxDepth) {
                     maxDepth = penguin.getSwimmingDepth();
                 }
             }
@@ -59,18 +61,37 @@ public class Zoo {
         return maxDepth;
     }
 
-    public boolean addAnimal(Animal animal) {
-        if (isZooFull()) {
-            System.out.println("Zoo is full");
-            return false;
+    /// instruction 32
+    /*public void addAnimal(Animal animal) {
+        try {
+            if (searchAnimal(animal) == -1) {
+                animals[nbrAnimals] = animal;
+                nbrAnimals++;
+                System.out.println("Animal " + animal.getName() + " added to zoo.");
+            }else {
+                throw new IllegalArgumentException("Animal " + animal.getName() + " can't be added to zoo.");
+            }
+        }catch (IndexOutOfBoundsException err){
+            System.out.println(err.getMessage());
+        }catch (Exception err){
+            System.out.println("error while adding animal");
         }
-        if (searchAnimal(animal) == -1)  {
-            animals[nbrAnimals] = animal;
-            nbrAnimals++;
-            return true;
-        }
-        System.out.println("Animal already exist");
-        return false;
+    }*/
+
+    /// instruction 33:
+    public void addAnimal(Animal animal) throws ZooFullException {
+
+            if (nbrAnimals >= nbrCages) {
+                throw new ZooFullException("Zoo Full");
+            }
+            if (searchAnimal(animal) == -1){
+                animals[nbrAnimals] = animal;
+                nbrAnimals++;
+                System.out.println("Animal " + animal.getName() + " added to zoo.");
+            }else {
+                System.out.println("Animal " + animal.getName() + " exists in zoo.");
+            }
+            System.out.println("Number Animals " + nbrAnimals);
     }
 
     public boolean removeAnimal(Animal animal)
